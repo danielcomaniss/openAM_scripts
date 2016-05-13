@@ -7,5 +7,9 @@ Captures the submitted password from the sharedState object and stores against t
 existing stores and then using the Dynamic Profile creation option in OpenAM
 <br/>
 <br/>
+<b>ExternalJWTVerifier.groovy</b>
+<br/>
+Scripted policy condition used to check the HMAC signature on an externally generated JWT
+<br/>
 Use as-is, no warranty.
 
