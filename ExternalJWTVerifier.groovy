@@ -44,20 +44,20 @@ if (jwtSet.isEmpty()) {
         authorized=false
   
 } else {
-	//Verify the signature of the submitted JWT
-	def validSignature = false
-	//Strip out the he submitted JWT
-	def submittedJwt = jwtSet.iterator().next()
-	def submittedHeaderEncoded = submittedJwt.tokenize('.')[0] //Split into header
-	def submittedClaimsEncoded = submittedJwt.tokenize('.')[1] //Split into claims
-	def submittedSignatureEncoded = submittedJwt.tokenize('.')[2] //split into signature
-	
-	logger.message("Scripted policy condition ExternalJWTVerifier: submitted header - " + submittedHeaderEncoded)
-	logger.message("Scripted policy condition ExternalJWTVerifier: submitted claims - " + submittedClaimsEncoded)
-	logger.message("Scripted policy condition ExternalJWTVerifier: submitted signature - " + submittedSignatureEncoded)
-	
-	//Deconstruct in order to verify
-	String submittedHeaderDecoded = Utils.base64urlDecode(submittedHeaderEncoded);
+        //Verify the signature of the submitted JWT
+        def validSignature = false
+        //Strip out the submitted JWT
+        def submittedJwt = jwtSet.iterator().next()
+        def submittedHeaderEncoded = submittedJwt.tokenize('.')[0] //Split into header
+        def submittedClaimsEncoded = submittedJwt.tokenize('.')[1] //Split into claims
+        def submittedSignatureEncoded = submittedJwt.tokenize('.')[2] //split into signature
+
+        logger.message("Scripted policy condition ExternalJWTVerifier: submitted header - " + submittedHeaderEncoded)
+        logger.message("Scripted policy condition ExternalJWTVerifier: submitted claims - " + submittedClaimsEncoded)
+        logger.message("Scripted policy condition ExternalJWTVerifier: submitted signature - " + submittedSignatureEncoded)
+
+        //Deconstruct in order to verify
+        String submittedHeaderDecoded = Utils.base64urlDecode(submittedHeaderEncoded);
         String submittedClaimsDecoded = Utils.base64urlDecode(submittedClaimsEncoded);
         byte[] submittedSignatureDecoded = Base64url.decode(submittedSignatureEncoded);
         
@@ -65,25 +65,28 @@ if (jwtSet.isEmpty()) {
         logger.message("Scripted policy condition ExternalJWTVerifier: submitted claims decoded - " + submittedClaimsDecoded)
         logger.message("Scripted policy condition ExternalJWTVerifier: submitted signature decoded - " + submittedSignatureDecoded)
 
+        //convert the submitted header and claims into relevant objects for use later
         JwsHeader jwsHeader = new JwsHeader(Utils.parseJson(submittedHeaderDecoded));
         JwtClaimsSet claimsSet = new JwtClaimsSet(Utils.parseJson(submittedClaimsDecoded));
-        
-        logger.message("header.alg:" + jwsHeader.getParameter("alg"))
-        
+  
+        // we'll also need the payload in bytes
         def payload = submittedHeaderEncoded + "." + submittedClaimsEncoded
         byte[] payloadAsBytes = payload.getBytes("UTF-8")
+    
+        //Create a signing manager object
+        SigningManager signingManager = new SigningManager()
+        def signingHandler
   
+        logger.message("header.alg:" + jwsHeader.getParameter("alg"))
+
         if (jwsHeader.getParameter("alg").toString() == "HS256") {
-  	    //HMAC shared key	
+  	        //HMAC shared key	
+            logger.message("HMAC shared key")
             //Convert shared secret String to byte[] array
             byte[] HMAC_SECRET_AS_BYTES = HMAC_SECRET.getBytes("UTF-8")
-            
-            //Pull in the ForgeRock classes used for verification
-            SignedJwt reconstructedJwt = new SignedJwt(jwsHeader, claimsSet, payloadAsBytes, submittedSignatureDecoded)
-            SigningHandler signingHandler = new HmacSigningHandler(HMAC_SECRET_AS_BYTES)
-            validSignature = reconstructedJwt.verify(signingHandler)
-            logger.message("Scripted policy condition ExternalJWTVerifier: validJWTSignature - " + validSignature)
-            
+            //get the HMAC signing handler
+            signingHandler = signingManager.newHmacSigningHandler(HMAC_SECRET_AS_BYTES)
+
         } else if (jwsHeader.getParameter("alg").toString() == "RS256") {
           //RS256 public key
           // get jwkset from JWK_URI 
@@ -99,14 +102,17 @@ if (jwtSet.isEmpty()) {
             RsaJWK rsajwk = RsaJWK.parse(jwkset.getJWKsAsList()[0].toString())
             logger.message("rsajwk:" + rsajwk.toString())
             //create the RSASigningHandler to verify the signature
-            SignatureUtil sigutil = new SignatureUtil()
-            SigningHandler rsaSigningHandler = new RSASigningHandler(rsajwk.toRSAPublicKey(),sigutil)
-            validSignature = rsaSigningHandler.verify(JwsAlgorithm.RS256, payloadAsBytes, submittedSignatureDecoded)
-            logger.message("RSA Sig is valid?: " + validSignature)
-            
+            signingHandler = signingManager.newRsaSigningHandler(rsajwk.toRSAPublicKey())
+
           }
+
         }
-        
+                 
+        //Reconstruct the JWT in order to verify with the signing handler
+        SignedJwt reconstructedJwt = new SignedJwt(jwsHeader, claimsSet, payloadAsBytes, submittedSignatureDecoded)
+        validSignature = reconstructedJwt.verify(signingHandler)
+        logger.message("Scripted policy condition ExternalJWTVerifier: validJWTSignature - " + validSignature)
+  
         if (validSignature == true){
         	logger.message("Scripted policy condition ExternalJWTVerifier: JWT signature valid")
         	authorized=true
