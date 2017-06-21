@@ -10,6 +10,11 @@ existing stores and then using the Dynamic Profile creation option in OpenAM
 <b>ExternalJWTVerifier.groovy</b>
 <br/>
 Scripted policy condition used to check the HMAC signature on an externally generated JWT
+<<br/>
+<br/>
+<b>PATSValidator.js</b>
+<br/>
+Scripted policy condition used to check the submitted Personal Access Tokens
 <br/>
 Use as-is, no warranty.
 
