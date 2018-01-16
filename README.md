@@ -1,4 +1,4 @@
-<b>OpenAM Scripted authentication and authorization artifacts</b>
+<b>ForgeRock OpenAM/Access Management Scripted authentication and authorization artifacts</b>
 <br/>
 <br/>
 <b>authenticationPasswordUpdate.js</b>
@@ -10,11 +10,16 @@ existing stores and then using the Dynamic Profile creation option in OpenAM
 <b>ExternalJWTVerifier.groovy</b>
 <br/>
 Scripted policy condition used to check the HMAC signature on an externally generated JWT
-<<br/>
+<br/>
 <br/>
 <b>PATSValidator.js</b>
 <br/>
 Scripted policy condition used to check the submitted Personal Access Tokens
+<br/>
+<br/>
+<b>OAuth2Validator.js</b>
+<br/>
+Scripted policy condition, that allows PDP decisions to be made against an AM issued OAuth2 access_token
 <br/>
 Use as-is, no warranty.
 
