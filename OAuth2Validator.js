@@ -3,7 +3,7 @@
 logger.message("Scripted OAuth2 policy validator: started");
 
 //Globals
-var subittedAccessToken;
+var submittedAccessToken;
 
 //Connection Information
 var AMSERVER="http://openam.example.com:8080";
