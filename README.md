@@ -21,5 +21,11 @@ Scripted policy condition used to check the submitted Personal Access Tokens
 <br/>
 Scripted policy condition, that allows PDP decisions to be made against an AM issued OAuth2 access_token
 <br/>
+<br/>
+<b>ResponsiveContextCheck.js</b>
+<br/>
+Scripted policy condition, that compares previously stored context to the current access request.
+<br/>
+<br/>
 Use as-is, no warranty.
 
