@@ -27,5 +27,10 @@ Scripted policy condition, that allows PDP decisions to be made against an AM is
 Scripted policy condition, that compares previously stored context to the current access request.
 <br/>
 <br/>
+<b>stress-test-am.sh</b>
+<br/>
+Basic bash script to perform configurable number of authentication, failed authentication, OAuth2 grants etc to generate monitoring stats for Grafana et al.
+<br/>
+<br/>
 Use as-is, no warranty.
 
