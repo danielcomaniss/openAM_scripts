@@ -44,9 +44,8 @@ function authenticate {
 		-H 'content-type: application/json' \
 		-H "x-openam-password: scsdsd" \
 		-H "x-openam-username: 2342342" \
-		-d '{}' \ 
-		| jq '.message' | cut -d "\"" -f 2)
-		echo "$response"
+		-d '{}' | jq '.message' | cut -d "\"" -f 2)
+		echo $response
 	fi
 
 }
