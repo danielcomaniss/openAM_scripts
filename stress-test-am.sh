@@ -24,6 +24,7 @@ if [ "$1" == "" ] || [ "$1" == "--help" ] || [ "$1" == "-help" ] || [ "$1" == "-
 	echo ""
 	echo "authenticate success - successful authentication"
 	echo "authenticate fail - failed authentication"
+	echo "oauth2 issue - OAuth2 token issuance using password grant"
 	exit
 fi
 
@@ -53,7 +54,7 @@ function authenticate {
 
 function oauth2 {
 
-	if [ "$1" == "grant" ]; then
+	if [ "$1" == "issue" ]; then
 
 		export response=$(curl -s -X POST -s "$OPENAM/oauth2/access_token" \
 		-H 'Cache-Control: no-cache' \
