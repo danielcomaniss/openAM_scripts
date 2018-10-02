@@ -32,7 +32,7 @@ Scripted policy condition, that compares previously stored context to the curren
 Basic bash script to perform configurable number of authentication, failed authentication, OAuth2 grants etc to generate monitoring stats for Grafana et al.
 <br/>
 <br/>
-<br>create-and-add-self-signed-cert-to-am-keystore</br>
+<b>create-and-add-self-signed-cert-to-am-keystore</b>
 <br/>
 Basic script to create a 2048 bit RSA private key for demo signing.  Adds into the AM default keystore.jceks
 <br/>
