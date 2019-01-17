@@ -32,7 +32,15 @@ introspect_response=$(curl -s --request POST \
   --header 'content-type: application/x-www-form-urlencoded')
 echo $introspect_response | jq .
 echo ""
-read -p "Press [Enter] to introspect the token again... and check it's still valid"
+read -p "Press [Enter] to introspect the token a 2nd time... and check it's still valid"
+echo ""
+introspect_response=$(curl -s --request POST \
+  --url "http://openam.example.com:8080/openam/oauth2/introspect?token=$access_token"	 --header 'authorization: Basic T0lEQ0NsaWVudDpQYXNzdzByZA==' \
+  --header 'cache-control: no-cache' \
+  --header 'content-type: application/x-www-form-urlencoded')
+echo $introspect_response | jq .
+echo ""
+read -p "Press [Enter] to introspect the token a 3rd time... and check it's still valid"
 echo ""
 introspect_response=$(curl -s --request POST \
   --url "http://openam.example.com:8080/openam/oauth2/introspect?token=$access_token"	 --header 'authorization: Basic T0lEQ0NsaWVudDpQYXNzdzByZA==' \
