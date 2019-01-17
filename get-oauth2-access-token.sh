@@ -6,7 +6,7 @@ PASSWORD=changeit
 CLIENTID=OIDClient
 CLIENTSECRET=Passw0rd
 SCOPE=read%20write
-echo "Getting OAuth2 access token #1..."
+echo "Requesting OAuth2 stateless access token"
 
 access_token=$(curl -s --request POST \
   --url http://openam.example.com:8080/openam/oauth2/access_token \
