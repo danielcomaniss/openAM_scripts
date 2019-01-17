@@ -37,5 +37,10 @@ Basic bash script to perform configurable number of authentication, failed authe
 Basic script to create a 2048 bit RSA private key for demo signing.  Adds into the AM default keystore.jceks
 <br/>
 <br/>
+<b>get-oauth2-access-token.sh</b>
+<br/>
+Basic script for testing OAuth2 key rotation
+<br/>
+<br/>
 Use as-is, no warranty.
 
