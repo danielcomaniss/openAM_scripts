@@ -42,5 +42,15 @@ Basic script to create a 2048 bit RSA private key for demo signing.  Adds into t
 Basic script for testing OAuth2 key rotation
 <br/>
 <br/>
+<b>create_ec_key_and_cert</b>
+<br/>
+<br/>
+Creates EC private key and associated certificate
+<br/>
+<b>request_access_token_cc</b>
+<br/>
+<br/>
+Requests access token using client creds flow, authenticating client via MTLS
+<br/>
 Use as-is, no warranty.
 
