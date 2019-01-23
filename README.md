@@ -44,11 +44,10 @@ Basic script for testing OAuth2 key rotation
 <br/>
 <b>create_ec_key_and_cert</b>
 <br/>
-<br/>
 Creates EC private key and associated certificate
 <br/>
-<b>request_access_token_cc</b>
 <br/>
+<b>request_access_token_cc</b>
 <br/>
 Requests access token using client creds flow, authenticating client via MTLS
 <br/>
