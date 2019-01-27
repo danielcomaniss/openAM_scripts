@@ -3,17 +3,14 @@
 clear
 USERNAME=demo
 PASSWORD=changeit
-CLIENTID=OIDClient
+CLIENTID=OIDCClient
 CLIENTSECRET=Passw0rd
-SCOPE=read%20write
-echo "Requesting OAuth2 stateless access token"
+SCOPE=read
+#############################################################
 
-access_token=$(curl -s --request POST \
-  --url http://openam.example.com:8080/openam/oauth2/access_token \
-  --header 'authorization: Basic T0lEQ0NsaWVudDpQYXNzdzByZA==' \
-  --header 'cache-control: no-cache' \
-  --header 'content-type: application/x-www-form-urlencoded' \
-  -d "grant_type=password&username=$USERNAME&password=$PASSWORD&scope=$SCOPE" | jq '.access_token' | cut -d "\"" -f 2)
+echo "Requesting OAuth2 stateless access token"
+DATA="grant_type=password&username=$USERNAME&password=$PASSWORD&scope=$SCOPE"
+access_token=$(curl -s -k --request POST --user "$CLIENTID:$CLIENTSECRET" --data $DATA http://openam.example.com:8080/openam/oauth2/access_token | jq '.access_token' |  cut -d "\"" -f 2)
 
 echo ""
 echo $access_token
@@ -27,7 +24,7 @@ echo ""
 read -p "Press [Enter] to introspect the token and check it's valid"
 echo ""
 introspect_response=$(curl -s --request POST \
-  --url "http://openam.example.com:8080/openam/oauth2/introspect?token=$access_token"	 --header 'authorization: Basic T0lEQ0NsaWVudDpQYXNzdzByZA==' \
+  --url "http://openam.example.com:8080/openam/oauth2/introspect?token=$access_token"	 --user "$CLIENTID:$CLIENTSECRET" \
   --header 'cache-control: no-cache' \
   --header 'content-type: application/x-www-form-urlencoded')
 echo $introspect_response | jq .
@@ -35,7 +32,7 @@ echo ""
 read -p "Press [Enter] to introspect the token a 2nd time... and check it's still valid"
 echo ""
 introspect_response=$(curl -s --request POST \
-  --url "http://openam.example.com:8080/openam/oauth2/introspect?token=$access_token"	 --header 'authorization: Basic T0lEQ0NsaWVudDpQYXNzdzByZA==' \
+  --url "http://openam.example.com:8080/openam/oauth2/introspect?token=$access_token"	 --user "$CLIENTID:$CLIENTSECRET" \
   --header 'cache-control: no-cache' \
   --header 'content-type: application/x-www-form-urlencoded')
 echo $introspect_response | jq .
@@ -43,7 +40,7 @@ echo ""
 read -p "Press [Enter] to introspect the token a 3rd time... and check it's still valid"
 echo ""
 introspect_response=$(curl -s --request POST \
-  --url "http://openam.example.com:8080/openam/oauth2/introspect?token=$access_token"	 --header 'authorization: Basic T0lEQ0NsaWVudDpQYXNzdzByZA==' \
+  --url "http://openam.example.com:8080/openam/oauth2/introspect?token=$access_token"	 --user "$CLIENTID:$CLIENTSECRET" \
   --header 'cache-control: no-cache' \
   --header 'content-type: application/x-www-form-urlencoded')
 echo $introspect_response | jq .
