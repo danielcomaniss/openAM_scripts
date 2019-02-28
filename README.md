@@ -51,5 +51,11 @@ Creates EC private key and associated certificate
 <br/>
 Requests access token using client creds flow, authenticating client via MTLS
 <br/>
+<br/>
+<b>ProofKeyValidator.groovy</b>
+<br/>
+Looks up a profile stored Base64 encoded SHA256 hashed nonce used during authentication and compares to a plain text nonce supplied via the environmental payload object, sent during a policy eval
+request.
+<br/>
 Use as-is, no warranty.
 
