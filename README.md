@@ -55,7 +55,25 @@ Requests access token using client creds flow, authenticating client via MTLS
 <b>ProofKeyValidator.groovy</b>
 <br/>
 Looks up a profile stored Base64 encoded SHA256 hashed nonce used during authentication and compares to a plain text nonce supplied via the environmental payload object, sent during a policy eval
-request.
+<br/>
+<br/>
+<b>SignedContextAnalysisVerifier.groovy</b>
+<br/>
+<br/>
+Analyses a presented JWT, stored within the env payload of an authorization request. Verifies signature, exp, iap and compares to claims held against the user's profile
+<br/>
+<br/>
+<b>get-random-bits.sh</b>
+<br/>
+<br/>
+Uses OpenSSL to generate "random" bits.  Arg 1 is the number of bits to generate.  Base64 encodes.
+<br/>
+<br/>
+<b>create-jwt.sh</b>
+<br/>
+<br/>
+Uses node jwtgen to create a signed JSON Web Token
+<br/>
 <br/>
 Use as-is, no warranty.
 
